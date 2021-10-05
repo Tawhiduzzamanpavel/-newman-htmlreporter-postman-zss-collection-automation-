@@ -1,0 +1,617 @@
+{
+	"info": {
+		"_postman_id": "92cf9c9c-0b4c-4143-90f1-116beef44d81",
+		"name": "zss_collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login Token Generation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"token\",jsonData.token);\r",
+							" "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\"  : \"testdoc\",\r\n    \"password\"  : \"Test123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api-token-auth/gen/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api-token-auth",
+						"gen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Prescription Create",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"prescription_id\",jsonData.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Check Prescription id created\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id != null).equals(true);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"patient\": 775,\r\n    \"additional_notes\": \"Medical tests are necessary\",\r\n    \"prescribed_medicines\": [\r\n        {\r\n            \"medicine\": 5,\r\n            \"dosage_1\": 3,\r\n            \"dosage_2\": 3,\r\n            \"dosage_3\": 3,\r\n            \"duration\": 4,\r\n            \"meal_reliance\": 1\r\n        }\r\n    ],\r\n    \"medical_tests\": [3]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/prescriptions/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"prescriptions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patient Id check",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"prescription_id\",jsonData.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check Patient id\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.patient).equals(773);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"patient\": 773,\r\n    \"additional_notes\": \"Medical tests are necessary\",\r\n    \"prescribed_medicines\": [\r\n        {\r\n            \"medicine\": 5,\r\n            \"dosage_1\": 3,\r\n            \"dosage_2\": 3,\r\n            \"dosage_3\": 3,\r\n            \"duration\": 4,\r\n            \"meal_reliance\": 1\r\n        }\r\n    ],\r\n    \"medical_tests\": [3]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/prescriptions/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"prescriptions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Additional Notes test case",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"prescription_id\",jsonData.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Additional Notes Check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.additional_notes).to.eql(\"Medical tests are necessary\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"patient\": 773,\r\n    \"additional_notes\": \"Medical tests are necessary\",\r\n    \"prescribed_medicines\": [\r\n        {\r\n            \"medicine\": 1,\r\n            \"dosage_1\": 1,\r\n            \"dosage_2\": 1,\r\n            \"dosage_3\": 1,\r\n            \"duration\": 1,\r\n            \"meal_reliance\": 2\r\n        }\r\n    ],\r\n    \"medical_tests\": [2]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/prescriptions/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"prescriptions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Medicine Value Check",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"prescription_id\",jsonData.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check Medicine Values\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"        pm.expect(jsonData.prescribed_medicines[0].medicine).to.be.a('number')\r",
+							"        pm.expect(jsonData.prescribed_medicines[0].dosage_1).to.be.a('number')\r",
+							"        pm.expect(jsonData.prescribed_medicines[0].dosage_2).to.be.a('number')\r",
+							"        pm.expect(jsonData.prescribed_medicines[0].dosage_3).to.be.a('number')\r",
+							"        pm.expect(jsonData.prescribed_medicines[0].duration).to.be.a('number')\r",
+							"        pm.expect(jsonData.prescribed_medicines[0].meal_reliance).to.be.oneOf([1,2])\r",
+							"        \r",
+							"\r",
+							"        \r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"patient\": 775,\r\n    \"additional_notes\": \"Medical tests are necessary\",\r\n    \"prescribed_medicines\": [\r\n        {\r\n            \"medicine\": 5,\r\n            \"dosage_1\": 3,\r\n            \"dosage_2\": 3,\r\n            \"dosage_3\": 3,\r\n            \"duration\": 4,\r\n            \"meal_reliance\": 1\r\n        }\r\n    ],\r\n    \"medical_tests\": [3]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/prescriptions/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"prescriptions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Medical Test Field Check",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"prescription_id\",jsonData.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Check Medicine Test Field\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.medical_tests[0]).to.be.oneOf([1,2,3,4,5,6,7,8])\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"patient\": 775,\r\n    \"additional_notes\": \"Medical tests are necessary\",\r\n    \"prescribed_medicines\": [\r\n        {\r\n            \"medicine\": 5,\r\n            \"dosage_1\": 3,\r\n            \"dosage_2\": 3,\r\n            \"dosage_3\": 3,\r\n            \"duration\": 4,\r\n            \"meal_reliance\": 1\r\n        }\r\n    ],\r\n    \"medical_tests\": [3]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/prescriptions/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"prescriptions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Prescription Get",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/prescriptions/{{prescription_id}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"prescriptions",
+						"{{prescription_id}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Prescription Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"patient\": 777,\r\n        \"additional_notes\": \"Medical tests are necessary\",\r\n        \"created_at\": \"2021-10-05T06:05:45.511606Z\",\r\n         \"updated_at\": \"2021-10-05T06:05:45.511745Z\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/prescriptions/{{prescription_id}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"prescriptions",
+						"{{prescription_id}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Validate Update Successful\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.patient).to.eql(777);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"patient\": 777,\r\n        \"additional_notes\": \"Medical tests are necessary\",\r\n        \"created_at\": \"2021-10-05T06:05:45.511606Z\",\r\n         \"updated_at\": \"2021-10-05T06:05:45.511745Z\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/prescriptions/{{prescription_id}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"prescriptions",
+						"{{prescription_id}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Prescription",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/prescriptions/{{prescription_id}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"prescriptions",
+						"{{prescription_id}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"pm.test(\"Validate delate Successful\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.detail).to.eql(\"Not found.\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/prescriptions/{{prescription_id}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"prescriptions",
+						"{{prescription_id}}",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
